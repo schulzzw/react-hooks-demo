@@ -43,14 +43,13 @@ class JobProvider extends React.Component {
     this.setState(prevState => ({
       applications: [
         ...prevState.applications,
-        this.state.jobs
-          .find(job => job.id===jobId)
-          .map(jobb => ({
-            jobId: jobb.id,
-            candidateId,
-          }))
+        {
+          jobId: this.state.jobs
+            .find(job => job.id===jobId).id,
+          candidateId,
+        }
       ]
-    }));
+    }), () => console.log('update applications', this.state.applications));
   }
 
   viewCandidatesForJob = (jobId) => {
