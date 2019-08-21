@@ -53,12 +53,17 @@ class JobProvider extends React.Component {
     }));
   }
 
+  viewCandidatesForJob = (jobId) => {
+    return this.state.applications.filter(app => app.jobId === jobId);
+  }
+
   render() {
     return (
       <JobContext.Provider
         value={{
           jobs: this.state.jobs,
           applyToJobb: this.applyToJob,
+          viewCandidatesForJob: this.state.applications,
         }}
       >
         {this.props.children}
