@@ -41,6 +41,10 @@ const JobProvider = ({ children }) => {
     ]);
   }, [setJobs]);
 
+  React.useEffect(() => {
+    console.log('update applications', applications);
+  }, [applications]);
+
   const applyToJob = ({ jobId, candidateId }) => {
     setApplications(
       prevState => [
@@ -49,8 +53,7 @@ const JobProvider = ({ children }) => {
           jobId: jobs.find(job => job.id === jobId).id,
           candidateId,
         },
-      ],
-      () => console.log('update applications', applications)
+      ]
     );
   };
 
@@ -62,7 +65,7 @@ const JobProvider = ({ children }) => {
     <JobContext.Provider
       value={{
         jobs: jobs,
-        applyToJobb: applyToJob,
+        applyToJob: applyToJob,
         viewCandidatesForJob: viewCandidatesForJob,
       }}
     >
