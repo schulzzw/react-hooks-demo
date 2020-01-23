@@ -1,10 +1,10 @@
 import React from 'react';
-import { JobContext } from './JobProvider';
+import useCandidateJobs from './useCandidateJobs';
 
 const JobDetails = props => {
   const { title, pay, companyName, id } = props;
 
-  const { applyToJob } = React.useContext(JobContext);
+  const { applyToJob } = useCandidateJobs();
 
   const handleOnClick = () => {
     applyToJob({
