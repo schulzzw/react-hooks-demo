@@ -45,28 +45,11 @@ const JobProvider = ({ children }) => {
     console.log('update applications', applications);
   }, [applications]);
 
-  const applyToJob = ({ jobId, candidateId }) => {
-    setApplications(
-      prevState => [
-        ...prevState,
-        {
-          jobId: jobs.find(job => job.id === jobId).id,
-          candidateId,
-        },
-      ]
-    );
-  };
-
-  const viewCandidatesForJob = jobId => {
-    return applications.filter(app => app.jobId === jobId);
-  };
-
   return (
     <JobContext.Provider
       value={{
         jobs: jobs,
-        applyToJob: applyToJob,
-        viewCandidatesForJob: viewCandidatesForJob,
+        setApplications: setApplications,
       }}
     >
       {children}
