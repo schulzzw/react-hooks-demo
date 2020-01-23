@@ -2,82 +2,74 @@ import React from 'react';
 
 const JobContext = React.createContext();
 
-class JobProvider extends React.Component {
-  state = {
-    jobs: [],
-    applications: [],
-  };
+const JobProvider = ({ children }) => {
+  const [jobs, setJobs] = React.useState([]);
+  const [applications, setApplications] = React.useState([]);
 
-  componentDidMount() {
-    this.setState({
-      jobs: [
+  React.useEffect(() => {
+    setJobs([
+      {
+        id: 1,
+        title: 'Simple Scrubber',
+        pay: '$19/hr',
+        companyName: "Steve Timber's Tub Masters",
+      },
+      {
+        id: 2,
+        title: 'Trunk Flattener',
+        pay: '$33/hr',
+        companyName: 'Baby Got Back',
+      },
+      {
+        id: 3,
+        title: 'Ranch Thinner',
+        pay: '$10/hr',
+        companyName: 'Hidden Field',
+      },
+      {
+        id: 4,
+        title: 'Gauge Timer',
+        pay: '$55/hr',
+        companyName: 'Chernobyl No 5',
+      },
+      {
+        id: 5,
+        title: 'Gumby Race Hiker',
+        pay: '$19/hr',
+        companyName: 'Block Heads Inc',
+      },
+    ]);
+  }, [setJobs]);
+
+  const applyToJob = ({ jobId, candidateId }) => {
+    setApplications(
+      prevState => [
+        ...prevState,
         {
-          id: 1,
-          title: 'Simple Scrubber',
-          pay: '$19/hr',
-          companyName: "Steve Timber's Tub Masters",
-        },
-        {
-          id: 2,
-          title: 'Trunk Flattener',
-          pay: '$33/hr',
-          companyName: 'Baby Got Back',
-        },
-        {
-          id: 3,
-          title: 'Ranch Thinner',
-          pay: '$10/hr',
-          companyName: 'Hidden Field',
-        },
-        {
-          id: 4,
-          title: 'Gauge Timer',
-          pay: '$55/hr',
-          companyName: 'Chernobyl No 5',
-        },
-        {
-          id: 5,
-          title: 'Gumby Race Hiker',
-          pay: '$19/hr',
-          companyName: 'Block Heads Inc',
+          jobId: jobs.find(job => job.id === jobId).id,
+          candidateId,
         },
       ],
-    });
-  }
-
-  applyToJob = ({ jobId, candidateId }) => {
-    this.setState(
-      prevState => ({
-        applications: [
-          ...prevState.applications,
-          {
-            jobId: this.state.jobs.find(job => job.id === jobId).id,
-            candidateId,
-          },
-        ],
-      }),
-      () => console.log('update applications', this.state.applications)
+      () => console.log('update applications', applications)
     );
   };
 
-  viewCandidatesForJob = jobId => {
-    return this.state.applications.filter(app => app.jobId === jobId);
+  const viewCandidatesForJob = jobId => {
+    return applications.filter(app => app.jobId === jobId);
   };
 
-  render() {
-    return (
-      <JobContext.Provider
-        value={{
-          jobs: this.state.jobs,
-          applyToJobb: this.applyToJob,
-          viewCandidatesForJob: this.state.applications,
-        }}
-      >
-        {this.props.children}
-      </JobContext.Provider>
-    );
-  }
-}
+  return (
+    <JobContext.Provider
+      value={{
+        jobs: jobs,
+        applyToJobb: applyToJob,
+        viewCandidatesForJob: viewCandidatesForJob,
+      }}
+    >
+      {children}
+    </JobContext.Provider>
+  );
+};
 
 export default JobProvider;
 
